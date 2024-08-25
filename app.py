@@ -5,25 +5,26 @@ import os
 client = OpenAI()
 
 # Streamlit app title
-st.title("OpenAI GPT-4o-mini Haiku Generator")
+st.markdown("# ⚠️OpenAI GPT testing area⚠️")
 
-# Function to generate a haiku
-def generate_haiku():
-    completion = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
-            {
-                "role": "user",
-                "content": "Write a haiku about recursion in programming."
-            }
-        ]
-    )
-    return completion.choices[0].message
+# Function to run the prompt
+def run_prompt(user_code):
+    # Execute the user code in a controlled environment
+    # WARNING: This approach runs arbitrary code and should be used with caution.
+    # For a safer alternative, avoid eval/exec and consider another method to process the input.
+    local_vars = {}
+    exec(user_code, {"client": client, "OpenAI": OpenAI}, local_vars)
+    return local_vars
 
-# Button to generate haiku
-if st.button("Generate Haiku"):
-    with st.spinner("Generating haiku..."):
-        haiku = generate_haiku()
-        st.write("### Haiku about Recursion in Programming")
-        st.write(haiku)
+# Input box for user to enter their code
+user_code = st.text_area("Enter your code here:")
+
+# Button to generate the response
+if st.button("Do it!"): 
+    with st.spinner("tHinKiNG weLLy haWD! one sec UwU 🧠💨"):
+        try:
+            response = run_prompt(user_code)
+            st.markdown("## --- Response ---")
+            st.write(response)
+        except Exception as e:
+            st.error(f"An error occurred: {e}")
