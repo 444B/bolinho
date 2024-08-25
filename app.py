@@ -1,4 +1,5 @@
 import streamlit as st
+import json
 from openai import OpenAI
 import os
 
@@ -24,7 +25,17 @@ if st.button("Do it!"):
     with st.spinner("tHinKiNG weLLy haWD! one sec UwU 🧠💨"):
         try:
             response = run_prompt(user_code)
-            st.markdown("## --- Response ---")
-            st.write(response)
+
+            tab1, tab2 = st.tabs(["Formatted Text", "JSON Response"])
+
+            # Response content
+            with tab1:
+                # st.write(message_content)
+                st.write("//TODO Pretty response here")
+
+            # JSON content
+            with tab2:
+                st.json(response)
+
         except Exception as e:
             st.error(f"An error occurred: {e}")
