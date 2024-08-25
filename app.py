@@ -1,8 +1,14 @@
 import streamlit as st
 import openai
+import os
 
-# Set your OpenAI API key
-openai.api_key = "your-openai-api-key"
+# Get OpenAI API key from environment variable
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
+# Check if API key is available
+if not openai.api_key:
+    st.error("OpenAI API key not found. Please set the OPENAI_API_KEY environment variable.")
+    st.stop()
 
 # Streamlit app title
 st.title("OpenAI API Demonstration")
